@@ -9,6 +9,7 @@ total_salary=0
 max_hrs_month=100
 total_emp_hrs=0
 total_working_days=0
+declare -A dailyWages
 
 function getWorkHours() {
 	case $1 in
@@ -32,6 +33,9 @@ do
         ((total_working_days++))
         getWorkHours $((RANDOM%3))
 	total_emp_hrs=$(($total_emp_hrs + $emp_hrs))
-	dailyWages[$total_working_days]=$(($emp_hrs * $emp_wage_per_hr))
+	dailyWages["Day" "$total_working_days"]="$( getEmpWage $emp_hrs )"
 done
-totalSalary="$( getEmpWage $total_emp_hrs )"
+total_salary="$( getEmpWage $total_emp_hrs )"
+echo ${dailyWages[@]}
+echo ${!dailyWages[@]}
+
